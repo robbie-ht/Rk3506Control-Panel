@@ -3,6 +3,7 @@
 #include <QPainterPath>
 #include <QApplication>
 #include <QGraphicsDropShadowEffect>
+#include <QPixmap>
 
 PowerButton::PowerButton(QWidget* parent)
     : QPushButton(parent)
@@ -88,8 +89,19 @@ void PowerButton::paintEvent(QPaintEvent* event)
     painter.setPen(QPen(QColor(45, 45, 45), 1.5));
     painter.drawEllipse(btnRect);
 
-    // 绘制电源图标
-    drawPowerIcon(painter, btnRect);
+    // 绘制电源图标（使用图片）
+    QPixmap powerIcon(":/resources/power.png");
+    if (!powerIcon.isNull()) {
+        int iconSize = static_cast<int>(btnRect.width() * 0.55);
+        QRect iconRect(
+            static_cast<int>(center.x() - iconSize / 2.0),
+            static_cast<int>(center.y() - iconSize / 2.0),
+            iconSize, iconSize
+        );
+        painter.drawPixmap(iconRect, powerIcon);
+    } else {
+        drawPowerIcon(painter, btnRect);
+    }
 }
 
 void PowerButton::enterEvent(QEvent* event)

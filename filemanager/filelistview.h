@@ -54,6 +54,11 @@ public:
      */
     QFileSystemModel* model() const;
 
+    /**
+     * @brief 获取当前根路径
+     */
+    QString currentPath() const;
+
 signals:
     /**
      * @brief 文件被双击信号
@@ -64,6 +69,7 @@ signals:
      * @brief 选择改变信号
      */
     void selectionChanged(const QStringList& files);
+    void contextMenuRequested(const QString& path, const QPoint& pos);
 
 protected:
     /**
@@ -81,6 +87,7 @@ private slots:
      * @brief 选择改变处理
      */
     void onSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+    void onContextMenu(const QPoint& pos);
 
 private:
     void setupUI();

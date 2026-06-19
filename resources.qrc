@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>fonts/wqy-zenhei.ttc</file>
+        <file>resources/power.png</file>
     </qresource>
 </RCC>

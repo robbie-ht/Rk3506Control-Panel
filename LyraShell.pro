@@ -19,7 +19,10 @@ SOURCES += \
     filemanager/filemanagerapp.cpp \
     filemanager/toolbar.cpp \
     filemanager/statusbar.cpp \
-    filemanager/dialogs.cpp
+    filemanager/dialogs.cpp \
+    sysinfo/sysinfocard.cpp \
+    sysinfo/sysinfomanager.cpp \
+    sysinfo/homepage.cpp
 
 HEADERS += \
     lyramainwindow.h \
@@ -35,9 +38,12 @@ HEADERS += \
     filemanager/filemanagerapp.h \
     filemanager/toolbar.h \
     filemanager/statusbar.h \
-    filemanager/dialogs.h
+    filemanager/dialogs.h \
+    sysinfo/sysinfocard.h \
+    sysinfo/sysinfomanager.h \
+    sysinfo/homepage.h
 
-INCLUDEPATH += filemanager
+INCLUDEPATH += filemanager sysinfo
 
 RESOURCES += \
     resources.qrc

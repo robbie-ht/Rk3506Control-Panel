@@ -12,7 +12,7 @@ SidebarItem::SidebarItem(const QString& name, const QString& iconType, QWidget* 
     , m_selected(false)
     , m_hovered(false)
 {
-    setFixedSize(68, 64);
+    setFixedSize(60, 58);
     setCursor(Qt::PointingHandCursor);
     setToolTip(name);
     setObjectName("sidebarItem");
@@ -42,7 +42,7 @@ void SidebarItem::drawIcon(QPainter& painter, const QRect& rect, const QString& 
 {
     painter.save();
 
-    QPen pen(m_selected ? QColor(255, 255, 255) : QColor(160, 160, 160), 1.8, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    QPen pen(m_selected ? QColor(200, 200, 255) : QColor(120, 120, 160), 1.6, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     painter.setPen(pen);
     painter.setBrush(Qt::NoBrush);
 
@@ -56,65 +56,51 @@ void SidebarItem::drawIcon(QPainter& painter, const QRect& rect, const QString& 
     if (iconType == "home") {
         // 房子图标
         QPainterPath path;
-        path.moveTo(cx, y + 4);
-        path.lineTo(x + w - 4, cy - 2);
-        path.lineTo(x + w - 4, y + h - 4);
-        path.lineTo(x + 4, y + h - 4);
-        path.lineTo(x + 4, cy - 2);
+        path.moveTo(cx, y + 3);
+        path.lineTo(x + w - 3, cy - 2);
+        path.lineTo(x + w - 3, y + h - 3);
+        path.lineTo(x + 3, y + h - 3);
+        path.lineTo(x + 3, cy - 2);
         path.closeSubpath();
         painter.drawPath(path);
 
         // 门
-        painter.drawRect(cx - 4, cy + 4, 8, 10);
+        painter.drawRect(cx - 3, cy + 4, 6, 8);
 
     } else if (iconType == "settings") {
         // 齿轮图标
-        int r1 = w / 2 - 4;
-        int r2 = w / 2 - 10;
+        int r1 = w / 2 - 3;
+        int r2 = w / 2 - 8;
 
-        // 外圈
         painter.drawEllipse(cx, cy, r1, r1);
-
-        // 内圈
         painter.drawEllipse(cx, cy, r2, r2);
 
-        // 齿轮齿
         for (int i = 0; i < 8; i++) {
             double angle = i * 45.0 * M_PI / 180.0;
             int x1 = cx + (r1 - 2) * cos(angle);
             int y1 = cy + (r1 - 2) * sin(angle);
-            int x2 = cx + (r1 + 3) * cos(angle);
-            int y2 = cy + (r1 + 3) * sin(angle);
+            int x2 = cx + (r1 + 2) * cos(angle);
+            int y2 = cy + (r1 + 2) * sin(angle);
             painter.drawLine(x1, y1, x2, y2);
         }
 
     } else if (iconType == "files") {
         // 文件夹图标
         QPainterPath path;
-        path.moveTo(x + 4, y + 8);
-        path.lineTo(x + 10, y + 4);
-        path.lineTo(x + w - 4, y + 4);
-        path.lineTo(x + w - 4, y + h - 4);
-        path.lineTo(x + 4, y + h - 4);
+        path.moveTo(x + 3, y + 7);
+        path.lineTo(x + 9, y + 3);
+        path.lineTo(x + w - 3, y + 3);
+        path.lineTo(x + w - 3, y + h - 3);
+        path.lineTo(x + 3, y + h - 3);
         path.closeSubpath();
         painter.drawPath(path);
 
-        // 文件夹盖子
-        painter.drawLine(x + 4, y + 8, x + 10, y + 4);
-        painter.drawLine(x + 10, y + 4, x + w - 4, y + 4);
-
-    } else if (iconType == "hello") {
-        // Hello 图标（手 waving）
-        painter.drawEllipse(cx - 8, cy - 10, 16, 16);  // 头
-        painter.drawLine(cx, cy + 6, cx, cy + 14);      // 身体
-        painter.drawLine(cx - 8, cy, cx - 14, cy - 6);  // 左手
-        painter.drawLine(cx + 8, cy, cx + 14, cy - 8);  // 右手（举起）
-        painter.drawLine(cx, cy + 14, cx - 6, cy + 22); // 左脚
-        painter.drawLine(cx, cy + 14, cx + 6, cy + 22); // 右脚
+        painter.drawLine(x + 3, y + 7, x + 9, y + 3);
+        painter.drawLine(x + 9, y + 3, x + w - 3, y + 3);
 
     } else {
-        // 默认图标（圆角矩形）
-        painter.drawRoundedRect(rect.adjusted(4, 4, -4, -4), 6, 6);
+        // 默认图标
+        painter.drawRoundedRect(rect.adjusted(3, 3, -3, -3), 5, 5);
     }
 
     painter.restore();
@@ -127,45 +113,47 @@ void SidebarItem::paintEvent(QPaintEvent* event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    QRectF itemRect = rect().adjusted(6, 4, -6, -4);
+    QRectF itemRect = rect().adjusted(4, 3, -4, -3);
 
     // 绘制选中/悬停背景
     if (m_selected) {
+        // 选中状态：紫色渐变
         QLinearGradient gradient(itemRect.topLeft(), itemRect.bottomLeft());
-        gradient.setColorAt(0, QColor(255, 255, 255, 18));
-        gradient.setColorAt(1, QColor(255, 255, 255, 8));
+        gradient.setColorAt(0, QColor(74, 74, 138, 80));
+        gradient.setColorAt(1, QColor(58, 58, 122, 40));
         painter.setBrush(gradient);
         painter.setPen(Qt::NoPen);
-        painter.drawRoundedRect(itemRect, 12, 12);
+        painter.drawRoundedRect(itemRect, 10, 10);
 
         // 左侧指示条
-        painter.setBrush(QColor(255, 255, 255, 200));
-        painter.drawRoundedRect(QRectF(itemRect.left(), itemRect.top() + 16, 3, 28), 1.5, 1.5);
+        painter.setBrush(QColor(140, 140, 220));
+        painter.drawRoundedRect(QRectF(itemRect.left(), itemRect.top() + 14, 3, 26), 1.5, 1.5);
     } else if (m_hovered) {
+        // 悬停状态
         QLinearGradient gradient(itemRect.topLeft(), itemRect.bottomLeft());
-        gradient.setColorAt(0, QColor(255, 255, 255, 10));
-        gradient.setColorAt(1, QColor(255, 255, 255, 4));
+        gradient.setColorAt(0, QColor(40, 40, 80, 60));
+        gradient.setColorAt(1, QColor(30, 30, 60, 30));
         painter.setBrush(gradient);
         painter.setPen(Qt::NoPen);
-        painter.drawRoundedRect(itemRect, 12, 12);
+        painter.drawRoundedRect(itemRect, 10, 10);
     }
 
     // 绘制图标
-    QRect iconRect(width() / 2 - 12, 10, 24, 24);
+    QRect iconRect(width() / 2 - 10, 8, 20, 20);
     drawIcon(painter, iconRect, m_iconType);
 
     // 绘制文字
     if (m_selected) {
-        painter.setPen(QColor(255, 255, 255));
+        painter.setPen(QColor(200, 200, 255));
     } else {
-        painter.setPen(QColor(160, 160, 160));
+        painter.setPen(QColor(120, 120, 160));
     }
     QFont font = painter.font();
-    font.setPixelSize(11);
+    font.setPixelSize(10);
     font.setWeight(QFont::Normal);
     painter.setFont(font);
 
-    QRect textRect(0, 42, width(), 18);
+    QRect textRect(0, 34, width(), 16);
     painter.drawText(textRect, Qt::AlignCenter, m_name);
 }
 

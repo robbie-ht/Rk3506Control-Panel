@@ -12,9 +12,6 @@ HelloWorld::HelloWorld(QObject* parent)
 
 HelloWorld::~HelloWorld()
 {
-    if (m_widget) {
-        delete m_widget;
-    }
 }
 
 QString HelloWorld::appName() const
@@ -24,7 +21,7 @@ QString HelloWorld::appName() const
 
 QString HelloWorld::iconPath() const
 {
-    return "hello";  // 图标类型名称
+    return "hello";
 }
 
 QWidget* HelloWorld::contentWidget()
@@ -37,45 +34,40 @@ QWidget* HelloWorld::contentWidget()
         layout->setAlignment(Qt::AlignCenter);
         layout->setSpacing(20);
 
-        // 图标
         QLabel* icon = new QLabel("👋");
         icon->setStyleSheet("font-size: 64px; background: transparent;");
         icon->setAlignment(Qt::AlignCenter);
         layout->addWidget(icon);
 
-        // 标题
         QLabel* title = new QLabel("Hello World!");
         title->setStyleSheet("font-size: 32px; color: #e8e8e8; background: transparent; font-weight: bold;");
         title->setAlignment(Qt::AlignCenter);
         layout->addWidget(title);
 
-        // 副标题
         QLabel* subtitle = new QLabel("这是一个示例插件");
         subtitle->setStyleSheet("font-size: 16px; color: #888888; background: transparent;");
         subtitle->setAlignment(Qt::AlignCenter);
         layout->addWidget(subtitle);
 
-        // 按钮
         QPushButton* btn = new QPushButton("点击我");
         btn->setFixedSize(160, 44);
         btn->setCursor(Qt::PointingHandCursor);
         btn->setStyleSheet(R"(
             QPushButton {
                 background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #3a3a3a, stop:1 #2a2a2a);
-                border: 1px solid #444444;
+                    stop:0 #3a3a7a, stop:1 #2a2a6a);
+                border: 1px solid #4a4a8a;
                 border-radius: 8px;
-                color: #e8e8e8;
+                color: #e0e0f0;
                 font-size: 14px;
             }
             QPushButton:hover {
                 background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #444444, stop:1 #333333);
-                border: 1px solid #555555;
+                    stop:0 #4a4a8a, stop:1 #3a3a7a);
             }
             QPushButton:pressed {
                 background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #2a2a2a, stop:1 #1e1e1e);
+                    stop:0 #2a2a6a, stop:1 #1a1a5a);
             }
         )");
 
@@ -91,5 +83,4 @@ QWidget* HelloWorld::contentWidget()
 
 void HelloWorld::initialize()
 {
-    // 初始化逻辑
 }

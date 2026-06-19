@@ -9,7 +9,7 @@ Sidebar::Sidebar(QWidget* parent)
     , m_currentIndex(-1)
 {
     setObjectName("sidebar");
-    setFixedWidth(88);
+    setFixedWidth(80);
 
     // 创建滚动区域
     QScrollArea* scrollArea = new QScrollArea(this);

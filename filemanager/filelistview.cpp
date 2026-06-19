@@ -55,6 +55,7 @@ void FileListView::setupUI()
     m_listView->setMovement(QListView::Snap);
     m_listView->setResizeMode(QListView::Adjust);
     m_listView->setWrapping(true);
+    m_listView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     layout->addWidget(m_treeView);
     layout->addWidget(m_listView);
@@ -73,6 +74,10 @@ void FileListView::setupConnections()
             this, &FileListView::onSelectionChanged);
     connect(m_listView->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &FileListView::onSelectionChanged);
+
+    // 长按/右键菜单
+    connect(m_treeView, &QTreeView::customContextMenuRequested, this, &FileListView::onContextMenu);
+    connect(m_listView, &QListView::customContextMenuRequested, this, &FileListView::onContextMenu);
 }
 
 void FileListView::setRootPath(const QString& path)
@@ -153,6 +158,40 @@ void FileListView::onSelectionChanged(const QItemSelection& selected, const QIte
     Q_UNUSED(selected)
     Q_UNUSED(deselected)
     emit selectionChanged(selectedFiles());
+}
+
+QString FileListView::currentPath() const
+{
+    return m_currentPath;
+}
+
+void FileListView::onContextMenu(const QPoint& pos)
+{
+    QWidget* sender = qobject_cast<QWidget*>(QObject::sender());
+    if (!sender) return;
+
+    QModelIndex index;
+    QString path;
+
+    if (sender == m_treeView) {
+        index = m_treeView->indexAt(pos);
+        if (index.isValid()) {
+            path = m_model->filePath(index);
+        }
+    } else {
+        index = m_listView->indexAt(pos);
+        if (index.isValid()) {
+            path = m_model->filePath(index);
+        }
+    }
+
+    // 如果没点到文件上，传当前目录路径
+    if (path.isEmpty()) {
+        path = m_currentPath;
+    }
+
+    QPoint globalPos = sender->mapToGlobal(pos);
+    emit contextMenuRequested(path, globalPos);
 }
 
 void FileListView::paintEvent(QPaintEvent* event)
