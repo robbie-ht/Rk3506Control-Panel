@@ -1,0 +1,364 @@
+/* Lyra Shell - 浅色主题（橙色 + 米白色） */
+
+/* 全局样式 */
+QWidget {
+    background-color: #fdf6ec;
+    color: #3d2b1f;
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    font-size: 13px;
+}
+
+/* 侧边栏 */
+#sidebar {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #f5e6d0, stop:1 #f0dcc4);
+    border-right: 1px solid #d4b896;
+    min-width: 80px;
+    max-width: 80px;
+}
+
+/* 内容区域 */
+#contentArea {
+    background-color: #fdf6ec;
+}
+
+/* 首页 */
+#homePage {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #fdf6ec, stop:1 #f8eddc);
+}
+
+/* 电源按钮 */
+#powerButton {
+    background: qradialgradient(cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.4,
+        stop:0 #f0b860, stop:0.8 #e09830, stop:1 #d08820);
+    border: 1.5px solid #c87a18;
+    border-radius: 24px;
+}
+
+#powerButton:hover {
+    background: qradialgradient(cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.4,
+        stop:0 #f8c870, stop:0.8 #e8a840, stop:1 #d89830);
+    border: 1.5px solid #b87010;
+}
+
+#powerButton:pressed {
+    background: qradialgradient(cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.4,
+        stop:0 #e0a040, stop:0.8 #d08820, stop:1 #c07818);
+    border: 1.5px solid #a86810;
+}
+
+/* 滚动条 */
+QScrollBar:vertical {
+    background: transparent;
+    width: 8px;
+    margin: 0;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical {
+    background: rgba(200, 160, 100, 0.35);
+    min-height: 40px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: rgba(200, 160, 100, 0.55);
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: transparent;
+}
+
+/* 文件管理器样式 */
+#toolbar {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #f5e6d0, stop:1 #f0dcc4);
+    border-bottom: 1px solid #d4b896;
+}
+
+#navButton {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #fffcf5, stop:1 #f5ead8);
+    border: 1px solid #d4b896;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 16px;
+    color: #5a3e28;
+}
+
+#navButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #fff8ee, stop:1 #f0dcc0);
+    border: 1px solid #c89040;
+}
+
+#navButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #f0dcc0, stop:1 #e8d0b0);
+}
+
+#navButton:disabled {
+    background: #f0e4d0;
+    color: #b8a088;
+    border: 1px solid #d8c8b0;
+}
+
+#pathLabel {
+    color: #7a5a3a;
+    padding: 4px 12px;
+}
+
+/* 文件列表 */
+QTreeView, QListView {
+    background: #fffbf4;
+    alternate-background-color: #fdf4e6;
+    border: none;
+    outline: none;
+}
+
+QTreeView::item, QListView::item {
+    padding: 8px;
+    border-bottom: 1px solid #e8d8c4;
+}
+
+QTreeView::item:selected, QListView::item:selected {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #f0a040, stop:1 #e08820);
+    color: #ffffff;
+}
+
+QTreeView::item:hover, QListView::item:hover {
+    background: #f8ead4;
+}
+
+QHeaderView::section {
+    background: #f5e6d0;
+    color: #7a5a3a;
+    padding: 10px;
+    border: none;
+    border-right: 1px solid #e0d0b8;
+    border-bottom: 1px solid #e0d0b8;
+}
+
+/* 面板路径标签 */
+#panelPathLabel {
+    background: #f5ead8;
+    color: #7a5a3a;
+    padding: 2px 8px;
+    font-size: 12px;
+    border-bottom: 1px solid #e0d0b8;
+}
+
+/* 右键菜单 */
+QMenu {
+    background: #fffcf5;
+    border: 1px solid #d4b896;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+QMenu::item {
+    padding: 8px 24px;
+    border-radius: 4px;
+    color: #3d2b1f;
+}
+
+QMenu::item:selected {
+    background: #f0a040;
+    color: #ffffff;
+}
+
+QMenu::separator {
+    height: 1px;
+    background: #e0d0b8;
+    margin: 4px 8px;
+}
+
+/* 状态栏 */
+#statusbar {
+    background: #f5e6d0;
+    border-top: 1px solid #d4b896;
+}
+
+#statusPath {
+    color: #a08060;
+}
+
+#statusCount {
+    color: #9a7858;
+}
+
+#statusMessage {
+    color: #b87830;
+}
+
+/* 对话框 */
+QDialog {
+    background: #fdf6ec;
+}
+
+QLabel {
+    color: #3d2b1f;
+}
+
+QLineEdit {
+    background: #fffcf5;
+    border: 1px solid #d4b896;
+    border-radius: 8px;
+    padding: 10px;
+    color: #3d2b1f;
+}
+
+QLineEdit:focus {
+    border: 1px solid #e08820;
+}
+
+QPushButton {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #fffcf5, stop:1 #f5ead8);
+    border: 1px solid #d4b896;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #3d2b1f;
+}
+
+QPushButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #fff8ee, stop:1 #f0dcc0);
+    border: 1px solid #c89040;
+}
+
+QPushButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #f0dcc0, stop:1 #e8d0b0);
+}
+
+QPushButton:disabled {
+    background: #f0e4d0;
+    color: #b8a088;
+    border: 1px solid #d8c8b0;
+}
+
+#deleteButton {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #e86840, stop:1 #d04820);
+    border: 1px solid #c04018;
+    color: #ffffff;
+}
+
+#deleteButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #f07848, stop:1 #d85828);
+}
+
+/* 系统信息卡片 */
+#cardIcon {
+    font-size: 20px;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #f8dcc0, stop:1 #f0ccA8);
+    border-radius: 10px;
+    border: 1px solid #d4b896;
+}
+
+#cardTitle {
+    font-size: 13px;
+    color: #8a6a4a;
+    background: transparent;
+}
+
+#cardValue {
+    font-size: 28px;
+    color: #3d2b1f;
+    font-weight: bold;
+    background: transparent;
+}
+
+#cardSubtitle {
+    font-size: 12px;
+    color: #9a7a5a;
+    background: transparent;
+}
+
+/* 首页组件 */
+#timeWidget {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #f5e6d0, stop:1 #edd8b8);
+    border-radius: 16px;
+    border: 1px solid #d4b896;
+}
+
+#homeTimeLabel {
+    font-size: 40px;
+    color: #5a3a1a;
+    font-weight: bold;
+    font-family: "Noto Sans Mono", monospace;
+    background: transparent;
+}
+
+#homeDateLabel {
+    font-size: 16px;
+    color: #8a6a4a;
+    background: transparent;
+}
+
+#homeWelcomeLabel {
+    font-size: 28px;
+    color: #3d2b1f;
+    font-weight: bold;
+    background: transparent;
+}
+
+#homeDeviceInfo {
+    font-size: 14px;
+    color: #9a7a5a;
+    background: transparent;
+}
+
+#homeSectionTitle {
+    font-size: 16px;
+    color: #8a6a4a;
+    background: transparent;
+}
+
+#homeVersionLabel, #homeCopyrightLabel {
+    font-size: 12px;
+    color: #a08868;
+    background: transparent;
+}
+
+/* 设置页面 */
+#settingsTitle {
+    color: #3d2b1f;
+}
+
+#settingsSubtitle {
+    color: #8a6a4a;
+}
+
+#themeButton {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #fffcf5, stop:1 #f5ead8);
+    border: 1px solid #d4b896;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #3d2b1f;
+    font-size: 14px;
+}
+
+#themeButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #fff8ee, stop:1 #f0dcc0);
+    border: 1px solid #c89040;
+}
+
+#themeButton[selected="true"] {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #f0a040, stop:1 #e08820);
+    border: 1px solid #d07818;
+    color: #ffffff;
+}

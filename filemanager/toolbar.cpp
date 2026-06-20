@@ -22,14 +22,14 @@ void ToolBar::setupUI()
     mainLayout->setContentsMargins(8, 4, 8, 4);
     mainLayout->setSpacing(4);
 
-    // 导航按钮
-    m_btnUp = new QPushButton("↑", this);
+    // 导航按钮 — 纯文字图标
+    m_btnUp = new QPushButton(QString::fromUtf8("\xe2\x86\x91"), this);  // ↑
     m_btnUp->setObjectName("navButton");
     m_btnUp->setFixedSize(32, 32);
     m_btnUp->setToolTip("上级目录");
     m_btnUp->setEnabled(false);
 
-    m_btnHome = new QPushButton("🏠", this);
+    m_btnHome = new QPushButton("H", this);
     m_btnHome->setObjectName("navButton");
     m_btnHome->setFixedSize(32, 32);
     m_btnHome->setToolTip("主目录");
@@ -39,7 +39,7 @@ void ToolBar::setupUI()
     m_btnRoot->setFixedSize(32, 32);
     m_btnRoot->setToolTip("根目录");
 
-    m_btnRefresh = new QPushButton("🔄", this);
+    m_btnRefresh = new QPushButton("R", this);
     m_btnRefresh->setObjectName("navButton");
     m_btnRefresh->setFixedSize(32, 32);
     m_btnRefresh->setToolTip("刷新");

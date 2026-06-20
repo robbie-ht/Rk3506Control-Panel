@@ -6,14 +6,18 @@
 #include "apps/appinterface.h"
 #include "filemanager/filemanagerapp.h"
 #include "sysinfo/homepage.h"
+#include "utils/thememanager.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPainter>
 #include <QResizeEvent>
 #include <QApplication>
+#include <QCoreApplication>
 #include <QLabel>
+#include <QPushButton>
 #include <QDebug>
+#include <QStyle>
 
 LyraMainWindow::LyraMainWindow(QWidget* parent)
     : QWidget(parent)
@@ -57,263 +61,8 @@ void LyraMainWindow::setupUI()
 
 void LyraMainWindow::loadStyleSheet()
 {
-    QString styleSheet = R"(
-        /* 全局样式 */
-        QWidget {
-            background-color: #0d0d1a;
-            color: #e0e0f0;
-            font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
-            font-size: 13px;
-        }
-
-        /* 侧边栏 */
-        #sidebar {
-            background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                stop:0 #0f0f1e, stop:1 #141428);
-            border-right: 1px solid #1a1a3a;
-            min-width: 80px;
-            max-width: 80px;
-        }
-
-        /* 内容区域 */
-        #contentArea {
-            background-color: #0d0d1a;
-        }
-
-        /* 首页 */
-        #homePage {
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 #0d0d1a, stop:1 #0a0a14);
-        }
-
-        /* 电源按钮 */
-        #powerButton {
-            background: qradialgradient(cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.4,
-                stop:0 #2a2a4a, stop:0.8 #1e1e3a, stop:1 #161630);
-            border: 1.5px solid #3a3a5a;
-            border-radius: 24px;
-        }
-
-        #powerButton:hover {
-            background: qradialgradient(cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.4,
-                stop:0 #353560, stop:0.8 #282850, stop:1 #1e1e40);
-            border: 1.5px solid #4a4a7a;
-        }
-
-        #powerButton:pressed {
-            background: qradialgradient(cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.4,
-                stop:0 #1e1e3a, stop:0.8 #161630, stop:1 #0e0e20);
-            border: 1.5px solid #2a2a4a;
-        }
-
-        /* 滚动条 */
-        QScrollBar:vertical {
-            background: transparent;
-            width: 8px;
-            margin: 0;
-            border-radius: 4px;
-        }
-
-        QScrollBar::handle:vertical {
-            background: rgba(100, 100, 150, 0.3);
-            min-height: 40px;
-            border-radius: 4px;
-        }
-
-        QScrollBar::handle:vertical:hover {
-            background: rgba(100, 100, 150, 0.5);
-        }
-
-        QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-            height: 0;
-        }
-
-        QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-            background: transparent;
-        }
-
-        /* 文件管理器样式 */
-        #toolbar {
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 #141428, stop:1 #0f0f1e);
-            border-bottom: 1px solid #1a1a3a;
-        }
-
-        #navButton {
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 #1e1e3a, stop:1 #161630);
-            border: 1px solid #2a2a4a;
-            border-radius: 6px;
-            padding: 6px;
-            font-size: 16px;
-        }
-
-        #navButton:hover {
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 #282850, stop:1 #1e1e40);
-            border: 1px solid #3a3a5a;
-        }
-
-        #navButton:pressed {
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 #161630, stop:1 #0f0f20);
-        }
-
-        #navButton:disabled {
-            background: #0f0f1e;
-            color: #444466;
-            border: 1px solid #1a1a3a;
-        }
-
-        #pathLabel {
-            color: #8888bb;
-            padding: 4px 12px;
-        }
-
-        /* 文件列表 */
-        QTreeView, QListView {
-            background: #0d0d1a;
-            alternate-background-color: #10102a;
-            border: none;
-            outline: none;
-        }
-
-        QTreeView::item, QListView::item {
-            padding: 8px;
-            border-bottom: 1px solid #1a1a3a;
-        }
-
-        QTreeView::item:selected, QListView::item:selected {
-            background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                stop:0 #3a3a7a, stop:1 #2a2a6a);
-            color: #ffffff;
-        }
-
-        QTreeView::item:hover, QListView::item:hover {
-            background: #1a1a3a;
-        }
-
-        QHeaderView::section {
-            background: #0f0f1e;
-            color: #8888aa;
-            padding: 10px;
-            border: none;
-            border-right: 1px solid #1a1a3a;
-            border-bottom: 1px solid #1a1a3a;
-        }
-
-        /* 面板路径标签 */
-        #panelPathLabel {
-            background: #10102a;
-            color: #8888bb;
-            padding: 2px 8px;
-            font-size: 12px;
-            border-bottom: 1px solid #1a1a3a;
-        }
-
-        /* 右键菜单 */
-        QMenu {
-            background: #141428;
-            border: 1px solid #2a2a4a;
-            border-radius: 6px;
-            padding: 4px;
-        }
-
-        QMenu::item {
-            padding: 8px 24px;
-            border-radius: 4px;
-            color: #e0e0f0;
-        }
-
-        QMenu::item:selected {
-            background: #3a3a7a;
-            color: #ffffff;
-        }
-
-        QMenu::separator {
-            height: 1px;
-            background: #2a2a4a;
-            margin: 4px 8px;
-        }
-
-        /* 状态栏 */
-        #statusbar {
-            background: #0f0f1e;
-            border-top: 1px solid #1a1a3a;
-        }
-
-        #statusPath {
-            color: #666688;
-        }
-
-        #statusCount {
-            color: #555577;
-        }
-
-        #statusMessage {
-            color: #6a6aaa;
-        }
-
-        /* 对话框 */
-        QDialog {
-            background: #141428;
-        }
-
-        QLabel {
-            color: #e0e0f0;
-        }
-
-        QLineEdit {
-            background: #0f0f1e;
-            border: 1px solid #2a2a4a;
-            border-radius: 8px;
-            padding: 10px;
-            color: #e0e0f0;
-        }
-
-        QLineEdit:focus {
-            border: 1px solid #4a4a8a;
-        }
-
-        QPushButton {
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 #1e1e3a, stop:1 #161630);
-            border: 1px solid #2a2a4a;
-            border-radius: 8px;
-            padding: 10px 20px;
-            color: #e0e0f0;
-        }
-
-        QPushButton:hover {
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 #282850, stop:1 #1e1e40);
-            border: 1px solid #3a3a5a;
-        }
-
-        QPushButton:pressed {
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 #161630, stop:1 #0f0f20);
-        }
-
-        QPushButton:disabled {
-            background: #0f0f1e;
-            color: #444466;
-            border: 1px solid #1a1a3a;
-        }
-
-        #deleteButton {
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 #8b2252, stop:1 #6b1242);
-            border: 1px solid #ab3262;
-        }
-
-        #deleteButton:hover {
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 #9b3262, stop:1 #7b2252);
-        }
-    )";
-
-    qApp->setStyleSheet(styleSheet);
+    // 使用主题管理器加载主题
+    ThemeManager::instance()->applyTheme(ThemeManager::instance()->currentTheme());
 }
 
 void LyraMainWindow::loadBuiltInApps()
@@ -328,22 +77,11 @@ void LyraMainWindow::loadBuiltInApps()
     m_contentArea->addPage(homePage);
 
     // 创建设置页面
-    QWidget* settingsPage = new QWidget();
-    settingsPage->setStyleSheet("background: transparent;");
-    QVBoxLayout* settingsLayout = new QVBoxLayout(settingsPage);
-    settingsLayout->setAlignment(Qt::AlignCenter);
+    m_contentArea->addPage(createSettingsPage());
 
-    QLabel* settingsIcon = new QLabel("⚙️");
-    settingsIcon->setStyleSheet("font-size: 48px; background: transparent;");
-    settingsIcon->setAlignment(Qt::AlignCenter);
-    settingsLayout->addWidget(settingsIcon);
-
-    QLabel* settingsTitle = new QLabel("系统设置");
-    settingsTitle->setStyleSheet("font-size: 24px; color: #e8e8e8; background: transparent; margin-top: 16px;");
-    settingsTitle->setAlignment(Qt::AlignCenter);
-    settingsLayout->addWidget(settingsTitle);
-
-    m_contentArea->addPage(settingsPage);
+    // 加载外部插件
+    QString pluginsPath = QCoreApplication::applicationDirPath() + "/plugins";
+    AppManager::instance()->loadPlugins(pluginsPath);
 
     // 注册文件管理器App
     FileManagerApp* fileManagerApp = new FileManagerApp(this);
@@ -373,6 +111,87 @@ void LyraMainWindow::updatePowerButtonPosition()
         int y = height() - m_powerButton->height() - 24;
         m_powerButton->move(x, y);
     }
+}
+
+QWidget* LyraMainWindow::createSettingsPage()
+{
+    QWidget* page = new QWidget();
+    page->setStyleSheet("background: transparent;");
+
+    QVBoxLayout* mainLayout = new QVBoxLayout(page);
+    mainLayout->setContentsMargins(40, 30, 40, 30);
+    mainLayout->setSpacing(24);
+
+    // 标题
+    QLabel* title = new QLabel("系统设置");
+    title->setObjectName("settingsTitle");
+    title->setStyleSheet("font-size: 22px; font-weight: bold; background: transparent;");
+    mainLayout->addWidget(title);
+
+    // 主题选择区域
+    QLabel* themeLabel = new QLabel("主题风格");
+    themeLabel->setObjectName("settingsSubtitle");
+    themeLabel->setStyleSheet("font-size: 15px; color: #8888aa; background: transparent; margin-top: 8px;");
+    mainLayout->addWidget(themeLabel);
+
+    QHBoxLayout* themeLayout = new QHBoxLayout();
+    themeLayout->setSpacing(16);
+
+    // 深色主题按钮
+    QPushButton* btnDark = new QPushButton("深色");
+    btnDark->setObjectName("themeButton");
+    btnDark->setFixedSize(120, 44);
+    btnDark->setCursor(Qt::PointingHandCursor);
+
+    // 浅色主题按钮
+    QPushButton* btnLight = new QPushButton("浅色");
+    btnLight->setObjectName("themeButton");
+    btnLight->setFixedSize(120, 44);
+    btnLight->setCursor(Qt::PointingHandCursor);
+
+    // 更新按钮选中状态
+    auto updateButtons = [btnDark, btnLight]() {
+        QString current = ThemeManager::instance()->currentTheme();
+        if (current == "dark") {
+            btnDark->setProperty("selected", true);
+            btnLight->setProperty("selected", false);
+        } else {
+            btnDark->setProperty("selected", false);
+            btnLight->setProperty("selected", true);
+        }
+        btnDark->style()->unpolish(btnDark);
+        btnDark->style()->polish(btnDark);
+        btnLight->style()->unpolish(btnLight);
+        btnLight->style()->polish(btnLight);
+    };
+
+    connect(btnDark, &QPushButton::clicked, [this, updateButtons]() {
+        ThemeManager::instance()->applyTheme("dark");
+        updateButtons();
+    });
+
+    connect(btnLight, &QPushButton::clicked, [this, updateButtons]() {
+        ThemeManager::instance()->applyTheme("light");
+        updateButtons();
+    });
+
+    themeLayout->addWidget(btnDark);
+    themeLayout->addWidget(btnLight);
+    themeLayout->addStretch();
+
+    mainLayout->addLayout(themeLayout);
+
+    // 初始状态
+    updateButtons();
+
+    // 连接主题变化信号刷新按钮样式
+    connect(ThemeManager::instance(), &ThemeManager::themeChanged, [updateButtons](const QString&) {
+        updateButtons();
+    });
+
+    mainLayout->addStretch();
+
+    return page;
 }
 
 void LyraMainWindow::paintEvent(QPaintEvent* event)

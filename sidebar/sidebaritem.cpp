@@ -1,4 +1,5 @@
 #include "sidebaritem.h"
+#include "utils/thememanager.h"
 #include <QPainter>
 #include <QPainterPath>
 #include <QMouseEvent>
@@ -42,7 +43,11 @@ void SidebarItem::drawIcon(QPainter& painter, const QRect& rect, const QString& 
 {
     painter.save();
 
-    QPen pen(m_selected ? QColor(200, 200, 255) : QColor(120, 120, 160), 1.6, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    bool isLight = ThemeManager::instance()->currentTheme().startsWith("light");
+    QColor iconSelected = isLight ? QColor(224, 136, 32) : QColor(200, 200, 255);
+    QColor iconNormal = isLight ? QColor(140, 100, 60) : QColor(120, 120, 160);
+
+    QPen pen(m_selected ? iconSelected : iconNormal, 1.6, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     painter.setPen(pen);
     painter.setBrush(Qt::NoBrush);
 
@@ -115,24 +120,34 @@ void SidebarItem::paintEvent(QPaintEvent* event)
 
     QRectF itemRect = rect().adjusted(4, 3, -4, -3);
 
+    bool isLight = ThemeManager::instance()->currentTheme().startsWith("light");
+
     // 绘制选中/悬停背景
     if (m_selected) {
-        // 选中状态：紫色渐变
         QLinearGradient gradient(itemRect.topLeft(), itemRect.bottomLeft());
-        gradient.setColorAt(0, QColor(74, 74, 138, 80));
-        gradient.setColorAt(1, QColor(58, 58, 122, 40));
+        if (isLight) {
+            gradient.setColorAt(0, QColor(240, 160, 64, 100));
+            gradient.setColorAt(1, QColor(224, 136, 32, 50));
+        } else {
+            gradient.setColorAt(0, QColor(74, 74, 138, 80));
+            gradient.setColorAt(1, QColor(58, 58, 122, 40));
+        }
         painter.setBrush(gradient);
         painter.setPen(Qt::NoPen);
         painter.drawRoundedRect(itemRect, 10, 10);
 
         // 左侧指示条
-        painter.setBrush(QColor(140, 140, 220));
+        painter.setBrush(isLight ? QColor(224, 136, 32) : QColor(140, 140, 220));
         painter.drawRoundedRect(QRectF(itemRect.left(), itemRect.top() + 14, 3, 26), 1.5, 1.5);
     } else if (m_hovered) {
-        // 悬停状态
         QLinearGradient gradient(itemRect.topLeft(), itemRect.bottomLeft());
-        gradient.setColorAt(0, QColor(40, 40, 80, 60));
-        gradient.setColorAt(1, QColor(30, 30, 60, 30));
+        if (isLight) {
+            gradient.setColorAt(0, QColor(224, 180, 100, 60));
+            gradient.setColorAt(1, QColor(200, 160, 80, 30));
+        } else {
+            gradient.setColorAt(0, QColor(40, 40, 80, 60));
+            gradient.setColorAt(1, QColor(30, 30, 60, 30));
+        }
         painter.setBrush(gradient);
         painter.setPen(Qt::NoPen);
         painter.drawRoundedRect(itemRect, 10, 10);
@@ -144,9 +159,9 @@ void SidebarItem::paintEvent(QPaintEvent* event)
 
     // 绘制文字
     if (m_selected) {
-        painter.setPen(QColor(200, 200, 255));
+        painter.setPen(isLight ? QColor(224, 136, 32) : QColor(200, 200, 255));
     } else {
-        painter.setPen(QColor(120, 120, 160));
+        painter.setPen(isLight ? QColor(140, 100, 60) : QColor(120, 120, 160));
     }
     QFont font = painter.font();
     font.setPixelSize(10);

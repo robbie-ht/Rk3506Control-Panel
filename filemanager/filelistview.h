@@ -6,10 +6,12 @@
 #include <QFileSystemModel>
 #include <QModelIndex>
 #include <QItemSelectionModel>
+#include <QTimer>
+#include <QPoint>
 
 /**
  * @brief 文件列表视图
- * 支持列表和图标两种视图模式
+ * 支持长按弹出菜单（触屏兼容）
  */
 class FileListView : public QWidget
 {
@@ -17,77 +19,34 @@ class FileListView : public QWidget
 
 public:
     enum ViewMode {
-        ListView,    // 列表视图
-        IconView     // 图标视图
+        ListView,
+        IconView
     };
 
     explicit FileListView(QWidget* parent = nullptr);
     ~FileListView();
 
-    /**
-     * @brief 设置根路径
-     */
     void setRootPath(const QString& path);
-
-    /**
-     * @brief 获取当前选中的文件路径列表
-     */
     QStringList selectedFiles() const;
-
-    /**
-     * @brief 获取当前选中的单个文件路径
-     */
     QString selectedFile() const;
-
-    /**
-     * @brief 设置视图模式
-     */
     void setViewMode(ViewMode mode);
-
-    /**
-     * @brief 获取视图模式
-     */
     ViewMode viewMode() const;
-
-    /**
-     * @brief 获取文件系统模型
-     */
     QFileSystemModel* model() const;
-
-    /**
-     * @brief 获取当前根路径
-     */
     QString currentPath() const;
 
 signals:
-    /**
-     * @brief 文件被双击信号
-     */
     void fileDoubleClicked(const QString& path);
-
-    /**
-     * @brief 选择改变信号
-     */
     void selectionChanged(const QStringList& files);
     void contextMenuRequested(const QString& path, const QPoint& pos);
 
 protected:
-    /**
-     * @brief 绘制事件
-     */
     void paintEvent(QPaintEvent* event) override;
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 private slots:
-    /**
-     * @brief 双击处理
-     */
     void onDoubleClicked(const QModelIndex& index);
-
-    /**
-     * @brief 选择改变处理
-     */
     void onSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
-    void onContextMenu(const QPoint& pos);
+    void onLongPress();
 
 private:
     void setupUI();
@@ -98,6 +57,12 @@ private:
     QListView* m_listView;
     ViewMode m_viewMode;
     QString m_currentPath;
+
+    // 长按检测
+    QTimer* m_longPressTimer;
+    QPoint m_pressPos;
+    QWidget* m_pressWidget;
+    bool m_longPressTriggered;
 };
 
 #endif // FILELISTVIEW_H

@@ -52,39 +52,21 @@ void HomePage::setupUI()
     // 左侧：时间显示
     QWidget* timeWidget = new QWidget(this);
     timeWidget->setObjectName("timeWidget");
-    timeWidget->setStyleSheet(R"(
-        #timeWidget {
-            background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                stop:0 #1a1a2e, stop:1 #16213e);
-            border-radius: 16px;
-            border: 1px solid #2a2a4a;
-        }
-    )");
 
     QVBoxLayout* timeLayout = new QVBoxLayout(timeWidget);
     timeLayout->setContentsMargins(30, 20, 30, 20);
     timeLayout->setSpacing(4);
 
     m_timeLabel = new QLabel(timeWidget);
-    m_timeLabel->setStyleSheet(R"(
-        font-size: 56px;
-        color: #ffffff;
-        font-weight: bold;
-        font-family: "Noto Sans Mono", monospace;
-        background: transparent;
-        letter-spacing: 2px;
-    )");
+    m_timeLabel->setObjectName("homeTimeLabel");
     timeLayout->addWidget(m_timeLabel);
 
     m_dateLabel = new QLabel(timeWidget);
-    m_dateLabel->setStyleSheet(R"(
-        font-size: 16px;
-        color: #8888aa;
-        background: transparent;
-    )");
+    m_dateLabel->setObjectName("homeDateLabel");
     timeLayout->addWidget(m_dateLabel);
 
     timeWidget->setFixedWidth(320);
+    timeWidget->setMinimumHeight(160);
     topLayout->addWidget(timeWidget);
 
     // 右侧：欢迎信息和快捷操作
@@ -92,16 +74,11 @@ void HomePage::setupUI()
     rightLayout->setSpacing(12);
 
     m_welcomeLabel = new QLabel("欢迎使用 Lyra Shell", this);
-    m_welcomeLabel->setStyleSheet(R"(
-        font-size: 28px;
-        color: #ffffff;
-        font-weight: bold;
-        background: transparent;
-    )");
+    m_welcomeLabel->setObjectName("homeWelcomeLabel");
     rightLayout->addWidget(m_welcomeLabel);
 
     QLabel* deviceInfo = new QLabel("幸狐 RK3506 Lyra Pi W · 1024×600", this);
-    deviceInfo->setStyleSheet("font-size: 14px; color: #666688; background: transparent;");
+    deviceInfo->setObjectName("homeDeviceInfo");
     rightLayout->addWidget(deviceInfo);
 
     rightLayout->addStretch();
@@ -111,12 +88,7 @@ void HomePage::setupUI()
 
     // 系统信息卡片区域
     QLabel* sectionTitle = new QLabel("系统状态", this);
-    sectionTitle->setStyleSheet(R"(
-        font-size: 16px;
-        color: #8888aa;
-        background: transparent;
-        margin-top: 5px;
-    )");
+    sectionTitle->setObjectName("homeSectionTitle");
     mainLayout->addWidget(sectionTitle);
 
     QGridLayout* cardsLayout = new QGridLayout();
@@ -145,13 +117,13 @@ void HomePage::setupUI()
     bottomLayout->setContentsMargins(0, 10, 0, 0);
 
     QLabel* versionLabel = new QLabel("v1.0.0", this);
-    versionLabel->setStyleSheet("font-size: 12px; color: #444466; background: transparent;");
+    versionLabel->setObjectName("homeVersionLabel");
     bottomLayout->addWidget(versionLabel);
 
     bottomLayout->addStretch();
 
     QLabel* copyrightLabel = new QLabel("© 2024 Lyra Shell", this);
-    copyrightLabel->setStyleSheet("font-size: 12px; color: #444466; background: transparent;");
+    copyrightLabel->setObjectName("homeCopyrightLabel");
     bottomLayout->addWidget(copyrightLabel);
 
     mainLayout->addLayout(bottomLayout);

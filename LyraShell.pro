@@ -22,7 +22,8 @@ SOURCES += \
     filemanager/dialogs.cpp \
     sysinfo/sysinfocard.cpp \
     sysinfo/sysinfomanager.cpp \
-    sysinfo/homepage.cpp
+    sysinfo/homepage.cpp \
+    utils/thememanager.cpp
 
 HEADERS += \
     lyramainwindow.h \
@@ -41,7 +42,8 @@ HEADERS += \
     filemanager/dialogs.h \
     sysinfo/sysinfocard.h \
     sysinfo/sysinfomanager.h \
-    sysinfo/homepage.h
+    sysinfo/homepage.h \
+    utils/thememanager.h
 
 INCLUDEPATH += filemanager sysinfo
 

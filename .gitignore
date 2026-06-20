@@ -1,0 +1,13 @@
+# Build directories
+build/
+build_x86/
+*.o
+*.so
+*.moc
+moc_*.cpp
+qrc_*.cpp
+Makefile
+.qmake.stash
+
+# Qt generated files
+*.pro.user

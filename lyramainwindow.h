@@ -31,6 +31,7 @@ private:
     void setupUI();
     void loadStyleSheet();
     void loadBuiltInApps();
+    QWidget* createSettingsPage();
     void updatePowerButtonPosition();
 
     Sidebar* m_sidebar;
